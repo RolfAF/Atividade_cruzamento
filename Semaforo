@@ -1,0 +1,32 @@
+import java.util.Random;
+import java.util.concurrent.Semaphore;
+
+public class Semaforo implements Runnable{
+    Semaphore sem;
+    boolean direcao;
+    String msg;
+    public Semaforo(Semaphore s, boolean direcao){
+        this.direcao = direcao;
+        sem = s;
+        if(direcao){
+            msg = "-----------------------------------\nSemaforo Norte / Sul aberto\nSemaforo Leste / Oeste fechado";
+        }else{
+            msg = "-----------------------------------\nSemaforo Norte / Sul fechado\nSemaforo Leste / Oeste aberto";
+        }
+        
+    }
+    
+    @Override
+    public void run(){
+        while(true){
+            try{
+                sem.acquire();
+                System.out.println(msg);
+                Thread.sleep(2000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+            sem.release();
+        }
+    }
+}
