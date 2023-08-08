@@ -1,0 +1,16 @@
+import java.util.concurrent.Semaphore;
+
+public class Main {
+
+    public static void main(String[] args) throws InterruptedException {
+        Semaphore sem = new Semaphore(1, true);
+        Thread semNS = new Thread(new Semaforo(sem, true));
+        Thread semLO = new Thread(new Semaforo(sem, false));
+
+        semNS.start();
+        semLO.start();
+
+        semNS.join();
+        semLO.join();
+    }
+}
